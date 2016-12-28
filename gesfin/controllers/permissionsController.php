@@ -1,15 +1,14 @@
 <?php
-class homeController extends controller {
+class permissionsController extends controller {
 
-    public function __construct() {
+     public function __construct() {
         parent::__construct();
         $u = new Users();
         if ($u->isLogged() == false) {
         	header("Location: ".BASE_URL."/login");
         }
     }
-
-    public function index() {
+       public function index() {
         $data = array();
         $u = new Users();
         $u->setLoggedUser();
@@ -18,9 +17,8 @@ class homeController extends controller {
         $data['company_name'] = $company->getName();
         $data['user_email'] = $u->getEmail();
 
-
            
-        $this->loadTemplate('home', $data);
+        $this->loadTemplate('permissions', $data);
     }
 
 }

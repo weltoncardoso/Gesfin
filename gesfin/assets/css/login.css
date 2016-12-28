@@ -42,5 +42,11 @@ border: 1px solid #ccc;
 	background-color: #ff9999;
 	color: #000;
 	margin-top: 20px;
+	position: absolute;
 	
+}
+p {
+	color: blue;
+	text-align: right;
+	margin-bottom: 0px;
 }
