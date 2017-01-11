@@ -18,6 +18,8 @@
                <ul>
                    <li><a href="<?php echo BASE_URL; ?>">Home</a> </li>
                    <li><a href="<?php echo BASE_URL; ?>/permissions">Permissões</a> </li>
+                   <li><a href="<?php echo BASE_URL; ?>/users">Usuários</a> </li>
+                   <li><a href="<?php echo BASE_URL; ?>/clients">Clientes</a> </li>
                </ul> 
              </div>
         </div>
@@ -34,5 +36,8 @@
         <?php $this->loadViewInTemplate($viewName, $viewData); ?>
         </div>        
         </div>
+            <div class="fim">
+                <img src="<?php echo BASE_URL; ?>/assets/images/logowa.png" width="50" height="50" border="0" /> </br>
+            </div>
     </body>
 </html>

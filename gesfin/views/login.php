@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/logo.ico" type="image/x-icon" />
         <title>LOGIN - GESFIN</title>
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets/css/login.css">
     </head>
