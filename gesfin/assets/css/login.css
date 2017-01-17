@@ -1,6 +1,9 @@
 body {
 	margin: 0;
-	background-color: #DDD;
+	background-image:url('../images/background_gesfin.png');
+	background-repeat: no-repeat;
+	background-size: 100%;
+
 }
 .loginarea {
 	width: 270px;
@@ -8,7 +11,7 @@ body {
 	background-color: #fff;
 	position: absolute;
 	left: 50%;
-	top: 30px;
+	top: 35%;
 	margin-left: -150px;
 	border-radius: 10px;
 	box-shadow: 0px 0px 10px #999;
@@ -33,7 +36,8 @@ border: 1px solid #ccc;
 	border: 0px;
 	font-size: 16px;
 	border-radius: 5px;
-	background-color: #ccc;
+	background-color: #036f6c;
+	color: #fff;
 }
 .warning {
 	border:  2px solid #ff0000;

@@ -4,8 +4,11 @@
         <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
         <title>Painel - <?php echo $viewData['company_name']; ?> </title>
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets/css/template.css">
-        <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/script.js"></script>
         <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/jquery-3.1.0.js"></script>
+        <script type="text/javascript">var BASE_URL = '<?php echo BASE_URL; ?>'; </script>
+
+        <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/script.js"></script>
+
     </head>
     <body>
         <div class="leftmenu">
