@@ -68,6 +68,15 @@ public function hasPermission($name) {
      }
   }
 
+    public function getId() {
+     if (isset($this->userInfo['id'])) {
+         return $this->userInfo['id'];
+      }
+     else {
+      return '';
+     }
+  }
+
   public function getInfo($id, $id_company) {
     $array = array();
 

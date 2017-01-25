@@ -77,6 +77,12 @@ list-style: none;
 .menuarea li:nth-child(4) {
 	background-image:url('../images/client.png');
 }
+.menuarea li:nth-child(5) {
+	background-image:url('../images/inventory.png');
+}
+.menuarea li:nth-child(6) {
+	background-image:url('../images/sales.png');
+}
 .area {
 	padding: 15px;
 }
@@ -104,6 +110,7 @@ border-bottom: 1px solid #f4faff;
 input[type=text],
 input[type=email],
 input[type=password],
+input[type=number],
 select,
 textarea {
 width: 100%;
@@ -232,7 +239,26 @@ color: white;
 	text-decoration: none;
 	display: block;
 }
-
+#client_name {
+	width: 250px;
+	float: left;
+	border: 1px solid #036f6c;
+	border-radius: 5px;
+}
+.client_add_button {
+	height: 30px;
+	line-height: 30px;
+	display: block;
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+	font-size: 17px;
+	border-radius: 5px;
+}
+.p_quant {
+	width: 40px !important ;
+	
+}
 
 
 
