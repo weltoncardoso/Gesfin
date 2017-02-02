@@ -118,4 +118,109 @@ public function addPurchase($id_company, $id_user, $quant, $status) {
 		   $sql->bindValue(':id_company', $id_company);
 		   $sql->execute();
    }
+
+    public function getPurchasesFiltered($email, $period1, $period2, $status, $order, $id_company) {
+   	$array = array();
+   	$sql = "SELECT
+	   	users.email,
+	   	purchases.date_purchase,
+	   	purchases.status,
+	   	purchases.total_price
+   	FROM purchases
+   	LEFT JOIN users ON users.id = purchases.id_user
+   	WHERE ";
+
+   	$where = array();
+   	$where[] = "purchases.id_company = :id_company";
+
+   	 if (!empty($email)) {
+   	 	$where[] = "users.email LIKE '%".$email."%'";
+   	 }
+
+   	 if (!empty($period1) && !empty($period2)) {
+   	 	$where[] = "purchases.date_purchase BETWEEN :period1 AND :period2";
+   	 }
+   	 if ($status != '') {
+   	 	$where[] = "purchases.status = :status";
+   	 }
+
+   	 $sql .= implode(' AND ', $where);
+
+   	 switch ($order) {
+   	 	case 'date_desc':
+   	 	default:
+   	 		$sql .= " ORDER BY purchases.date_purchase DESC";
+   	 		break;
+   	 	case 'date_asc':
+   	 		$sql .= " ORDER BY purchases.date_purchase ASC";
+   	 		break;
+   	 	case 'status':
+   	 		$sql .= " ORDER BY purchases.status";
+   	 		break;
+   	 }
+   	 $sql = $this->db->prepare($sql);
+   	 $sql->bindValue(':id_company', $id_company);
+
+   	 if (!empty($period1) && !empty($period2)) {
+   	 	$sql->bindValue(':period1', $period1);
+   	 	$sql->bindValue(':period2', $period2);
+   	 }
+   	 if ($status != '') {
+   	 	$sql->bindValue(':status', $status);
+   	 }
+   	 $sql->execute();
+
+   	  if ($sql->rowCount() > 0) {
+	           $array = $sql->fetchAll();
+              } 
+
+    return $array;
+   }
+    public function getExpensesList($period1, $period2, $id_company) {
+     $array = array();
+     $currentDay = $period1;
+     while ($period2 != $currentDay) {
+        $array[$currentDay] = 0;
+        $currentDay = date('Y-m-d', strtotime('+1 day', strtotime($currentDay)));
+
+     }
+
+      $sql = "SELECT DATE_FORMAT(date_purchase,'%Y-%m-%d') AS date_purchase, SUM(total_price) AS total FROM purchases WHERE id_company = :id_company AND date_purchase BETWEEN :period1 AND :period2 GROUP BY DATE_FORMAT(date_purchase,'%Y-%m-%d')";
+      $sql = $this->db->prepare($sql);
+         $sql->bindValue(':id_company', $id_company);
+         $sql->bindValue(':period1', $period1);
+         $sql->bindValue(':period2', $period2);
+         $sql->execute();
+
+               if($sql->rowCount() > 0) {
+              $rows = $sql->fetchAll();
+
+              foreach ($rows as $sale_item) {
+                 $array[$sale_item['date_purchase']] = $sale_item['total'];
+              }
+           }
+              
+      return $array;
+ }
+
+  public function getStatusListPurchases($period1, $period2, $id_company) {
+     $array = array('0'=>0,'1'=>0,'2'=>0,'3'=>0);
+
+      $sql = "SELECT COUNT(id) AS total, status FROM purchases WHERE id_company = :id_company AND date_purchase BETWEEN :period1 AND :period2 GROUP BY status ORDER BY status ASC";
+      $sql = $this->db->prepare($sql);
+         $sql->bindValue(':id_company', $id_company);
+         $sql->bindValue(':period1', $period1);
+         $sql->bindValue(':period2', $period2);
+         $sql->execute();
+
+               if($sql->rowCount() > 0) {
+              $rows = $sql->fetchAll();
+
+              foreach ($rows as $status_item) {
+                 $array[$status_item['status']] = $status_item['total'];
+              }
+           }
+              
+      return $array;
+ }
 }

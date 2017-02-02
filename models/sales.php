@@ -177,4 +177,110 @@ public function addSale($id_company, $id_client, $id_user, $quant, $status) {
 
     return $array;
    }
+   public function getTotalRevenue($period1, $period2, $id_company) {
+      $float = 0;
+
+      $sql = "SELECT SUM(total_price) AS total FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2";
+      $sql = $this->db->prepare($sql);
+         $sql->bindValue(':id_company', $id_company);
+         $sql->bindValue(':period1', $period1);
+         $sql->bindValue(':period2', $period2);
+         $sql->execute();
+
+              $n = $sql->fetch();
+              $float = $n['total'];
+              
+      return $float;
+   }
+      public function getTotalExpenses($period1, $period2, $id_company) {
+      $float = 0;
+
+      $sql = "SELECT SUM(total_price) AS total FROM purchases WHERE id_company = :id_company AND date_purchase BETWEEN :period1 AND :period2";
+      $sql = $this->db->prepare($sql);
+         $sql->bindValue(':id_company', $id_company);
+         $sql->bindValue(':period1', $period1);
+         $sql->bindValue(':period2', $period2);
+         $sql->execute();
+
+              $n = $sql->fetch();
+              $float = $n['total'];
+              
+      return $float;
+   }
+         public function getSoldProducts($period1, $period2, $id_company) {
+      $int = 0;
+
+       $sql = "SELECT id FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2";
+      $sql = $this->db->prepare($sql);
+         $sql->bindValue(':id_company', $id_company);
+         $sql->bindValue(':period1', $period1);
+         $sql->bindValue(':period2', $period2);
+         $sql->execute();
+           if ($sql->rowCount() > 0) {
+              $p = array();
+              foreach ($sql->fetchAll() as $sale_item) {
+                 $p[]=$sale_item['id'];
+              }
+
+         $sql = $this->db->query("SELECT COUNT(*) AS total FROM sales_products WHERE id_sale IN (".implode(',', $p).")");
+         $n = $sql->fetch();
+              $int = $n['total'];
+         } 
+              
+      return $int;
+   }
+public function getRevenueList($period1, $period2, $id_company) {
+     $array = array();
+     $currentDay = $period1;
+     while ($period2 != $currentDay) {
+        $array[$currentDay] = 0;
+        $currentDay = date('Y-m-d', strtotime('+1 day', strtotime($currentDay)));
+
+     }
+
+      $sql = "SELECT DATE_FORMAT(date_sale,'%Y-%m-%d') AS date_sale, SUM(total_price) AS total FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2 GROUP BY DATE_FORMAT(date_sale,'%Y-%m-%d')";
+      $sql = $this->db->prepare($sql);
+         $sql->bindValue(':id_company', $id_company);
+         $sql->bindValue(':period1', $period1);
+         $sql->bindValue(':period2', $period2);
+         $sql->execute();
+
+               if($sql->rowCount() > 0) {
+              $rows = $sql->fetchAll();
+
+              foreach ($rows as $sale_item) {
+                 $array[$sale_item['date_sale']] = $sale_item['total'];
+              }
+           }
+              
+      return $array;
+ }
+public function getStatusList($period1, $period2, $id_company) {
+     $array = array('0'=>0,'1'=>0,'2'=>0,'3'=>0);
+
+      $sql = "SELECT COUNT(id) AS total, status FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2 GROUP BY status ORDER BY status ASC";
+      $sql = $this->db->prepare($sql);
+         $sql->bindValue(':id_company', $id_company);
+         $sql->bindValue(':period1', $period1);
+         $sql->bindValue(':period2', $period2);
+         $sql->execute();
+
+               if($sql->rowCount() > 0) {
+              $rows = $sql->fetchAll();
+
+              foreach ($rows as $status_item) {
+                 $array[$status_item['status']] = $status_item['total'];
+              }
+           }
+              
+      return $array;
+ }
 }
+
+
+
+
+
+
+
+
