@@ -46,11 +46,19 @@
 		<label for="address_neighb">Bairro</label></br>
 	<input type="text" name="address_neighb" value="<?php echo $client_info['address_neighb']; ?>" /></br></br>
 
-		<label for="address_city">Cidade</label></br>
-	<input type="text" name="address_city" value="<?php echo $client_info['address_city']; ?>" /></br></br>
+	    <label for="address_state">Estado</label><br/>
+	<select name="address_state" onchange="changeState(this)">
+		<?php foreach($states as $state): ?>
+		<option value="<?php echo $state['Uf']; ?>" <?php echo ($state['Uf']==$client_info['address_state'])?'selected="selected"':''; ?>><?php echo $state['Uf']; ?></option>
+		<?php endforeach; ?>
+	</select><br/><br/>
 
-		<label for="address_state">Estado</label></br>
-	<input type="text" name="address_state" value="<?php echo $client_info['address_state']; ?>" /></br></br>
+	<label for="address_city">Cidade</label><br/>
+	<select name="address_city">
+		<?php foreach($cities as $city): ?>
+		<option value="<?php echo $city['CodigoMunicipio']; ?>" <?php echo ($city['CodigoMunicipio']==$client_info['address_citycode'])?'selected="selected"':''; ?>><?php echo utf8_encode($city['Nome']); ?></option>
+		<?php endforeach; ?>
+	</select><br/><br/>
 
 		<label for="address_country">Pais</label></br>
 	<input type="text" name="address_country" value="<?php echo $client_info['address_country']; ?>" /></br></br>

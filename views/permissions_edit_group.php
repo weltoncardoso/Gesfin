@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
 <meta charset="utf-8">
  <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/logo.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>/assets/css/template.css">
@@ -26,5 +23,4 @@
 	<input type="submit" name="Editar" />
 
 </form>
-</body>
-</html>
+

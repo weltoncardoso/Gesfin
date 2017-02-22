@@ -5,6 +5,7 @@
 <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/jquery-3.1.0.js"></script>
 <h1>Usuários </h1>
 <div class="button" ><a href="<?php echo BASE_URL; ?>/users/add">Adicionar Usuário</a></div>
+<input type="text" id="busca" data-type="search_users" />
 		<table border="0" width="100%">
 			<tr>
 				<th>E-mail</th>

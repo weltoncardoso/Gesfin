@@ -20,8 +20,14 @@
 				<td width="100"><?php echo date('d/m/y', strtotime($sale_item['date_sale'])); ?></td>
 				<td width="200"><?php echo $statusname[$sale_item['status']]; ?></td>
 				<td width="200">R$<?php echo number_format($sale_item['total_price'], 2, ',','.'); ?></td>
-				<td width="100">
+				<td width="260">
 					<div class="button button_small"><a href="<?php echo BASE_URL; ?>/sales/edit/<?php echo $sale_item['id'];?>" >Editar</a></div>
+
+					<?php if (!empty($sale_item['nfe_key'])):?>
+						<div class="button button_small"><a target="_blank" href="<?php echo BASE_URL; ?>/sales/view_nfe/<?php echo $sale_item['nfe_key'];?>" >Visualizar NF-e</a></div>
+						<?php else: ?>
+						<div class="button button_small"><a target="_blank" href="<?php echo BASE_URL; ?>/sales/generate_nfe/<?php echo $sale_item['id'];?>" >Emitir NF-e</a></div>
+						<?php endif; ?>
 				</td>
 			
 			    </tr>

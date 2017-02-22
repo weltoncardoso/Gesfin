@@ -46,11 +46,17 @@
 		<label for="address_neighb">Bairro</label></br>
 	<input type="text" name="address_neighb" /></br></br>
 
-		<label for="address_city">Cidade</label></br>
-	<input type="text" name="address_city" /></br></br>
+		<label for="address_state">Estado</label><br/>
+	<select name="address_state" onchange="changeState(this)">
+		<?php foreach($states as $state): ?>
+		<option value="<?php echo $state['Uf']; ?>"><?php echo $state['Uf']; ?></option>
+		<?php endforeach; ?>
+	</select><br/><br/>
 
-		<label for="address_state">Estado</label></br>
-	<input type="text" name="address_state"" /></br></br>
+	     <label for="address_city">Cidade</label></br>
+	     <select name="address_city">
+
+	</select><br/><br/>
 
 		<label for="address_country">Pais</label></br>
 	<input type="text" name="address_country"" /></br></br>

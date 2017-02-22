@@ -4,16 +4,54 @@
 <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/script.js"></script>
 <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/jquery-3.1.0.js"></script>
 <h1>Estoque </h1>
-<?php if ($edit_permission): ?>
-<div class="button" ><a href="<?php echo BASE_URL; ?>/inventory/add">Adicionar Produtos</a></div>
+
+<div class="tabarea">
+	<?php if ($edit_permission): ?>
+	<div class="tabitem activetab">Serviços </div>
+	<div class="tabitem">Produtos</div>
+</div>
+<div class="tabcontent">
+	<div class="tabbody" style="display: block;">
+
+<div class="button" ><a href="<?php echo BASE_URL; ?>/inventory/addService">Adicionar Serviços</a></div>
 <?php endif; ?>
 
-<input type="text" id="busca" data-type="search_inventory" />
+<input type="text" id="busca" data-type="search_services" />
+
+		<table border="0" width="100%">
+			<tr>
+				<th>Descrição</th>
+				<th>Preço</th>
+				<th>Ações</th>
+			</tr>
+
+<?php foreach ($inventory_list_service as $service): ?>
+			<tr>
+				<td><?php echo $service['name']; ?></td>
+				<td width="250">R$<?php echo number_format($service['price'], 2, ',','.'); ?></td>
+				<td width="190">
+					<div class="button button_small"><a href="<?php echo BASE_URL; ?>/inventory/editService/<?php echo $service['id'];?>">Editar</a></div>
+				<div class="button button_small"><a href="<?php echo BASE_URL; ?>/inventory/deleteService/<?php echo $service['id'];?>" onclick="return confirm('Deseja mesmo excluir este Servico?')">Excluir</a></div>
+				</td>
+			
+			    </tr>
+	<?php endforeach; ?>
+		</table> 
+	
+	 
+		</div>
+<?php if ($edit_permission): ?>
+		<div class="tabbody">
+	<div class="button" ><a href="<?php echo BASE_URL; ?>/inventory/add">Adicionar Produtos</a>
+	</div>
+<?php endif; ?>
+
+<input type="text" id="busca" data-type="search_products" />
 
 		<table border="0" width="100%">
 			<tr>
 				<th>Nome</th>
-				<th>Preco</th>
+				<th>Preço</th>
 				<th>Quant</th>
 				<th>Qnt. Min</th>
 				<th>Ações</th>
@@ -38,5 +76,8 @@
 			
 			    </tr>
 	<?php endforeach; ?>
-		</table> 
+		</table>
+		</div>
+
+</div>
 
