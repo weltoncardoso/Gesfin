@@ -1,5 +1,6 @@
 <?php
 session_start();
+require 'vendor/autoload.php';
 require 'config.php';
 
 define('BASE_URL', 'http://localhost/gesfin');
@@ -15,6 +16,7 @@ spl_autoload_register(function ($class){
             require_once 'core/'.$class.'.php';
     }
 });
+
 
 $core = new Core();
 $core->run();

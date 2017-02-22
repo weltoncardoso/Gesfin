@@ -32,7 +32,6 @@ class clientsController extends controller {
             $offset = ( 10 * ($data['p']-1) );
 
             $data['clients_list'] = $c->getList($offset, $u->getCompany());
-            //modificacao
             $data['clients_count'] = $c->getCount($u->getCompany());
             $data['p_count'] = ceil($data['clients_count'] / 10);
 
@@ -52,6 +51,8 @@ class clientsController extends controller {
 
         $data['company_name'] = $company->getName();
         $data['user_email'] = $u->getEmail();
+            $ci = new Cidade();
+
           if ($u->hasPermission('clients_edit')) {
             $c = new Clients();
 
@@ -66,14 +67,17 @@ class clientsController extends controller {
                 $address_number = addslashes($_POST['address_number']);
                 $address2 = addslashes($_POST['address2']);
                 $address_neighb = addslashes($_POST['address_neighb']);
-                $address_city = addslashes($_POST['address_city']);
+                $address_citycode = addslashes($_POST['address_city']);
                 $address_state = addslashes($_POST['address_state']);
                 $address_country = addslashes($_POST['address_country']);
+                $address_city = $ci->getCity($address_citycode);
 
-                $c->add($u->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country);
+                $c->add($u->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $address_citycode);
 
                 header("Location: ".BASE_URL."/clients");
             }
+
+            $data['states'] = $ci->getStates();
 
              $this->loadTemplate('clients_add', $data);   
            } else {
@@ -89,6 +93,9 @@ class clientsController extends controller {
 
         $data['company_name'] = $company->getName();
         $data['user_email'] = $u->getEmail();
+
+            $ci = new Cidade();
+
           if ($u->hasPermission('clients_edit')) {
             $c = new Clients();
 
@@ -104,16 +111,19 @@ class clientsController extends controller {
                 $address2 = addslashes($_POST['address2']);
                 $address_neighb = addslashes($_POST['address_neighb']);
                 $address_city = addslashes($_POST['address_city']);
+                $address_citycode = addslashes($_POST['address_city']);
                 $address_state = addslashes($_POST['address_state']);
                 $address_country = addslashes($_POST['address_country']);
+                $address_city = $ci->getCity($address_citycode);
 
-                $c->edit($id, $u->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country);
+                $c->edit($id, $u->getCompany(), $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $address_citycode);
 
                 header("Location: ".BASE_URL."/clients");
             }
 
             $data['client_info'] = $c->getInfo($id, $u->getCompany());
-
+            $data['states'] = $ci->getStates();
+            $data['cities'] = $ci->getCityList($data['client_info']['address_state']);
              $this->loadTemplate('clients_edit', $data);   
            } else {
             header("Location: ".BASE_URL."/clients");

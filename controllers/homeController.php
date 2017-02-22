@@ -19,7 +19,6 @@ class homeController extends controller {
         $data['user_email'] = $u->getEmail();
 
 
-           
         $this->loadTemplate('home', $data);
     }
 

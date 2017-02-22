@@ -9,7 +9,6 @@ $(function(){
     $('.tabbody').eq(item).show();
 
  });
-//modificaco
  $('#busca').on('focus', function(){
  	$(this).animate({
  			width:'250px'

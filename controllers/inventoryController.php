@@ -1,12 +1,11 @@
 <?php
 class inventoryController extends controller {
-
  public function __construct() {
     parent::__construct();
     $u = new Users();
     if ($u->isLogged() == false) {
-    	header("Location: ".BASE_URL."/login");
-    	exit;
+      header("Location: ".BASE_URL."/login");
+      exit;
     }
 }
   public function index() {
@@ -19,18 +18,20 @@ class inventoryController extends controller {
     
 
      if ($u->hasPermission('inventory_view')) {
-     	$i = new Inventory();
-     	$offset = 0;
+      $i = new Inventory();
+      $is = new InventoryService();
+      $offset = 0;
 
 
 
-     	$data['inventory_list'] = $i->getList($offset, $u->getCompany());
+      $data['inventory_list'] = $i->getList($offset, $u->getCompany());
+      $data['inventory_list_service'] = $is->getListService($offset, $u->getCompany());
 
-     	$data['add_permission'] = $u->hasPermission('inventory_add');
-     	$data['edit_permission'] = $u->hasPermission('inventory_edit');
+      $data['add_permission'] = $u->hasPermission('inventory_add');
+      $data['edit_permission'] = $u->hasPermission('inventory_edit');
 
 
-     	$this->loadTemplate("inventory", $data);
+      $this->loadTemplate("inventory", $data);
                } else {
             header("Location: ".BASE_URL);
            }
@@ -49,7 +50,7 @@ class inventoryController extends controller {
 
             if (isset($_POST['name']) && !empty($_POST['name'])) {
 
-            	$i = new Inventory();
+              $i = new Inventory();
 
                 $name = addslashes($_POST['name']);
                 $price = addslashes($_POST['price']);
@@ -76,7 +77,7 @@ class inventoryController extends controller {
         $data['company_name'] = $company->getName();
         $data['user_email'] = $u->getEmail();
           if ($u->hasPermission('inventory_edit')) {
-          	$i = new Inventory();
+            $i = new Inventory();
 
             if (isset($_POST['name']) && !empty($_POST['name'])) {
                 $name = addslashes($_POST['name']);
@@ -102,8 +103,81 @@ class inventoryController extends controller {
         $u->setLoggedUser();
 
           if ($u->hasPermission('inventory_edit')) {
-          	$i = new Inventory();
-          	$i->delete($id, $u->getCompany(), $u->getId());
+            $i = new Inventory();
+            $i->delete($id, $u->getCompany(), $u->getId());
+
+ 
+         header("Location: ".BASE_URL."/inventory");   
+           }
+      }
+
+
+//servicos
+
+
+ public function addService() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $company = new Companies($u->getCompany());
+
+        $data['company_name'] = $company->getName();
+        $data['user_email'] = $u->getEmail();
+          if ($u->hasPermission('inventory_add')) {
+
+            if (isset($_POST['name']) && !empty($_POST['name'])) {
+
+              $is = new InventoryService();
+
+                $name = addslashes($_POST['name']);
+                $price = addslashes($_POST['price']);
+
+                $price = str_replace(',', '.', $price);
+
+                $is->addService($name, $price, $u->getCompany(), $u->getId());
+
+                header("Location: ".BASE_URL."/inventory");
+            }
+
+             $this->loadTemplate('inventory_add_service', $data);   
+           }
+      }
+
+       public function editService($id) {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $company = new Companies($u->getCompany());
+
+        $data['company_name'] = $company->getName();
+        $data['user_email'] = $u->getEmail();
+          if ($u->hasPermission('inventory_edit')) {
+            $is = new InventoryService();
+
+            if (isset($_POST['name']) && !empty($_POST['name'])) {
+                $name = addslashes($_POST['name']);
+                $price = addslashes($_POST['price']);
+
+                $price = str_replace('.', '', $price);
+                $price = str_replace(',', '.', $price);
+
+                $is->editService($id, $name, $price, $u->getCompany(), $u->getId());
+
+                header("Location: ".BASE_URL."/inventory");
+            }
+
+            $data['inventory_info_service'] = $is->getInfoService($id, $u->getCompany());
+
+             $this->loadTemplate('inventory_edit_service', $data);   
+           }
+      }
+       public function deleteService($id) {
+        $u = new Users();
+        $u->setLoggedUser();
+
+          if ($u->hasPermission('inventory_edit')) {
+            $is = new InventoryService();
+            $is->deleteService($id, $u->getCompany(), $u->getId());
 
  
          header("Location: ".BASE_URL."/inventory");   

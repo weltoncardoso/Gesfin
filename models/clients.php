@@ -37,8 +37,8 @@ public function getCount($id_company){
   return $r;
 }
 
-public function add($id_company, $name, $email='', $phone='', $stars='3', $internal_obs='', $address_zipcode='', $address='', $address_number='', $address2='', $address_neighb='', $address_city='', $address_state='', $address_country='') {
-   $sql = $this->db->prepare("INSERT INTO  clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number =:address_number, address2 = :address2, address_neighb = :address_neighb, address_city =:address_city, address_state = :address_state, address_country = :address_country");
+public function add($id_company, $name, $email='', $phone='', $stars='3', $internal_obs='', $address_zipcode='', $address='', $address_number='', $address2='', $address_neighb='', $address_city='', $address_state='', $address_country='', $address_citycode='') {
+   $sql = $this->db->prepare("INSERT INTO  clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number =:address_number, address2 = :address2, address_neighb = :address_neighb, address_city =:address_city, address_citycode =:address_citycode address_state = :address_state, address_country = :address_country, address_countrycode =1058");
           $sql->bindValue(':id_company', $id_company);
           $sql->bindValue(':name', $name);
           $sql->bindValue(':email', $email);
@@ -51,6 +51,7 @@ public function add($id_company, $name, $email='', $phone='', $stars='3', $inter
           $sql->bindValue(':address2', $address2);
           $sql->bindValue(':address_neighb', $address_neighb);
           $sql->bindValue(':address_city', $address_city);
+          $sql->bindValue(':address_citycode', $address_citycode);
           $sql->bindValue(':address_state', $address_state);
           $sql->bindValue(':address_country', $address_country);
           $sql->execute();
@@ -58,8 +59,8 @@ public function add($id_company, $name, $email='', $phone='', $stars='3', $inter
           return $this->db->lastInsertId();
 }
 
-public function edit($id, $id_company, $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country) {
-   $sql = $this->db->prepare("UPDATE clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number =:address_number, address2 = :address2, address_neighb = :address_neighb, address_city =:address_city, address_state = :address_state, address_country = :address_country WHERE id = :id AND id_company = :id_company2 ");
+public function edit($id, $id_company, $name, $email, $phone, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $address_citycode) {
+   $sql = $this->db->prepare("UPDATE clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number =:address_number, address2 = :address2, address_neighb = :address_neighb, address_city =:address_city, address_citycode =:address_citycode, address_state = :address_state, address_country = :address_country, address_countrycode = 1058 WHERE id = :id AND id_company = :id_company2 ");
           $sql->bindValue(':id_company', $id_company);
           $sql->bindValue(':name', $name);
           $sql->bindValue(':email', $email);
@@ -72,6 +73,7 @@ public function edit($id, $id_company, $name, $email, $phone, $stars, $internal_
           $sql->bindValue(':address2', $address2);
           $sql->bindValue(':address_neighb', $address_neighb);
           $sql->bindValue(':address_city', $address_city);
+          $sql->bindValue(':address_citycode', $address_citycode);
           $sql->bindValue(':address_state', $address_state);
           $sql->bindValue(':address_country', $address_country);
           $sql->bindValue(':id', $id);

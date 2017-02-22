@@ -1,5 +1,5 @@
 <?php
-class SalesController extends controller {
+class ServicesController extends controller {
 
      public function __construct() {
         parent::__construct();
@@ -25,14 +25,14 @@ class SalesController extends controller {
         	);
 
           if ($u->hasPermission('sales_view')) {
-          	$s = new Sales();
+          	$s = new Services();
           	$offset = 0;
 
-          	$data['sales_list'] = $s->getList($offset, $u->getCompany());
+          	$data['inventory_list_service'] = $s->getList($offset, $u->getCompany());
 
 
 
-        $this->loadTemplate('sales', $data);
+        $this->loadTemplate('services', $data);
      } else {
             header("Location: ".BASE_URL);
            }
@@ -154,7 +154,7 @@ $u = new Users();
         $data['user_email'] = $u->getEmail();
 
           if ($u->hasPermission('sales_view')) {
-          	$s = new Sales();
+          	$s = new Services();
 
           	if (isset($_POST['client_id']) && !empty($_POST['client_id'])) {
           		$client_id = addslashes($_POST['client_id']);
@@ -162,10 +162,10 @@ $u = new Users();
           		$quant = $_POST['quant'];
 
           		$s->addSale($u->getCompany(), $client_id, $u->getId(), $quant, $status);
-          		header("Location: ".BASE_URL."/sales");
+          		header("Location: ".BASE_URL."/services");
           	}
 
-        $this->loadTemplate('sales_add', $data);
+        $this->loadTemplate('services_add', $data);
      } else {
             header("Location: ".BASE_URL);
            }
@@ -188,7 +188,7 @@ $u = new Users();
         	);
 
           if ($u->hasPermission('sales_view')) {
-          	$s = new Sales();
+          	$s = new Services();
           	$data['permission_edit'] = $u->hasPermission('sales_edit');
 
           	if (isset($_POST['status']) && $data['permission_edit']) {
@@ -196,12 +196,12 @@ $u = new Users();
 
           		$s->changeStatus($status, $id, $u->getCompany());
 
-          		header("Location: ".BASE_URL."/sales");
+          		header("Location: ".BASE_URL."/services");
           	}
 
-          	$data['sales_info'] = $s->getInfo($id, $u->getCompany());
+          	$data['service_info'] = $s->getInfo($id, $u->getCompany());
 
-        $this->loadTemplate('sales_edit', $data);
+        $this->loadTemplate('services_edit', $data);
      } else {
             header("Location: ".BASE_URL);
            }

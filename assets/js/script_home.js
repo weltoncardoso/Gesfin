@@ -28,6 +28,16 @@ var rel2 = new Chart(document.getElementById("rel2"),{
 		}]
 	}
 });
+var rel2_1 = new Chart(document.getElementById("rel2_1"),{
+	type:'pie',
+	data:{
+		labels:status_name_list,
+		datasets:[{
+			data:status_list_services,
+			backgroundColor:['#0000CD','#FF0000','#FFA500','#00FA9A',]
+		}]
+	}
+});
 var rel3 = new Chart(document.getElementById("rel3"),{
 	type:'bar',
 	data:{

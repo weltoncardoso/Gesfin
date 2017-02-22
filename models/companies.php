@@ -23,4 +23,17 @@ class Companies extends model {
     		return '';
     	}
     }
+public function getNextNFE() {
+    $nfe_number = $this->companyInfo['nfe_number'];
+    $nfe_number++;
+
+    return $nfe_number;
+  }
+
+  public function setNFE($cNF, $id) {
+    $sql = $this->db->prepare("UPDATE companies SET nfe_number = :nfe_number WHERE id = :id");
+    $sql->bindValue(":nfe_number", $cNF);
+    $sql->bindValue(":id", $id);
+    $sql->execute();
+  }
 }
